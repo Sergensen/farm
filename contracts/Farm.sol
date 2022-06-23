@@ -6,9 +6,13 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract Farm is Ownable {
     string[] private admins;
 
+    event Response (bool success, bytes data);
+
     function execute(address target, bytes calldata callData) public onlyOwner {
-        (bool success, bytes memory ret) = target.call(callData);
+        (bool success, bytes memory data) = target.call(callData);
         require(success);
+
+        emit Response(success, data);
     }
 
     function getAdmins() public view returns (string[] memory) {
