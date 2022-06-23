@@ -15,29 +15,21 @@ contract Farm is AccessControl, ReentrancyGuard {
         uint256 livePeriod;
         uint256 votesFor;
         uint256 votesAgainst;
-        string description;
-        bytes callData;
+        address farmChief;
+        bool add;
         bool votingPassed;
-        address target;
-        address payable payableTarget;
         address proposer;
         bool executed;
         address executedBy;
-        uint256 amount;
     }
 
     event Response (bool success, bytes data);
     event CornReceived(address indexed fromAddress, uint256 amount);
     event NewProposal(address indexed farmer);
-    event SeedsSown(
+    event AddedFarmChief(
         address indexed farmer,
-        address indexed target,
-        string callData
-    );
-    event SeedsTransfered(
-        address indexed farmer,
-        address indexed target,
-        uint256 amount
+        address indexed farmChief,
+        bool indexed add
     );
 
     mapping(uint256 => Proposal) private proposals;
@@ -110,9 +102,8 @@ contract Farm is AccessControl, ReentrancyGuard {
     }
 
     function createProposal(
-        bytes calldata callData,
-        string calldata description,
-        address target
+        address farmChief, 
+        bool add
     )
         external
         onlyFarmer
@@ -121,29 +112,8 @@ contract Farm is AccessControl, ReentrancyGuard {
         Proposal storage proposal = proposals[proposalId];
         proposal.id = proposalId;
         proposal.proposer = msg.sender;
-        proposal.callData = callData;
-        proposal.description = description;
-        proposal.target = target;
-        proposal.livePeriod = block.number + minimumVotingPeriod;
-
-        emit NewProposal(msg.sender);
-    }
-
-    function createPayableProposal(
-        uint256 amount,
-        string calldata description,
-        address payable target
-    )
-        external
-        onlyFarmer
-    {
-        uint256 proposalId = proposalCounter++;
-        Proposal storage proposal = proposals[proposalId];
-        proposal.id = proposalId;
-        proposal.proposer = msg.sender;
-        proposal.amount = amount;
-        proposal.description = description;
-        proposal.payableTarget = target;
+        proposal.add = add;
+        proposal.farmChief = farmChief;
         proposal.livePeriod = block.number + minimumVotingPeriod;
 
         emit NewProposal(msg.sender);
@@ -186,9 +156,6 @@ contract Farm is AccessControl, ReentrancyGuard {
     {
         Proposal storage proposal = proposals[proposalId];
 
-        if (proposal.amount > 0)
-            revert("Proposal should not contain an amount.");
-
         if (proposal.executed)
             revert("Proposal already has been executed.");
 
@@ -200,42 +167,26 @@ contract Farm is AccessControl, ReentrancyGuard {
         proposal.executed = true;
         proposal.executedBy = msg.sender;
 
-        emit SeedsSown(
+        emit AddedFarmChief(
             msg.sender,
-            proposal.target,
-            proposal.description
+            proposal.farmChief,
+            proposal.add
         );
 
-        (bool success, bytes memory data) = proposal.target.call(proposal.callData);
-        require(success);
-
-        emit Response(success, data);
+        if (proposal.add) {
+            require(!hasRole(FARM_CHIEF_ROLE, proposal.farmChief), "Provided account is already an admin.");
+            grantRole(FARM_CHIEF_ROLE, proposal.farmChief);
+        } else {
+            require(hasRole(FARM_CHIEF_ROLE, proposal.farmChief), "Provided account is no admin.");
+            renounceRole(FARM_CHIEF_ROLE, proposal.farmChief);
+        }
     }
 
-    function transfer(uint256 proposalId)
+    function transfer(uint256 amount, address payable target)
         external
-        onlyFarmer
+        onlyFarmChief
     {
-        Proposal storage proposal = proposals[proposalId];
-
-        if (proposal.executed)
-            revert("Proposal already has been executed.");
-
-        if (proposal.votesFor <= proposal.votesAgainst)
-            revert(
-                "The proposal does not have the required amount of votes to pass"
-            );
-
-        proposal.executed = true;
-        proposal.executedBy = msg.sender;
-
-        emit SeedsTransfered(
-            msg.sender,
-            proposal.target,
-            proposal.amount
-        );
-
-        return proposal.payableTarget.transfer(proposal.amount);
+        return target.transfer(amount);
     }
         
     function execute(address target, bytes calldata callData) public onlyFarmChief {
@@ -243,15 +194,6 @@ contract Farm is AccessControl, ReentrancyGuard {
         require(success);
 
         emit Response(success, data);
-    }
-
-    function addFarmChief(address account) public {
-        grantRole(FARM_CHIEF_ROLE, account);
-    }
-
-    function removeFarmChief(address account) public {
-        require(hasRole(FARM_CHIEF_ROLE, account), "Provided account is no admin.");
-        renounceRole(FARM_CHIEF_ROLE, account);
     }
 
     receive() external payable {
