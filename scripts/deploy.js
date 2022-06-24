@@ -1,8 +1,6 @@
-const hre = require("hardhat");
-
 async function main() {
-  const farmFactory = await hre.ethers.getContractFactory("Farm");
-  const farm = await farmFactory.deploy();
+  const farmFactory = await ethers.getContractFactory("Farm");
+  const farm = await upgrades.deployProxy(farmFactory);
   await farm.deployed();
   console.log("Deployed to:", farm.address);
 }

@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
-contract Farm is AccessControl, ReentrancyGuard {
+contract Farm is AccessControl {
     bytes32 public constant FARMER_ROLE = keccak256("FARMER_ROLE");
     bytes32 public constant FARM_CHIEF_ROLE = keccak256("FARM_CHIEF_ROLE");
     uint32 constant minimumVotingPeriod = 20;
