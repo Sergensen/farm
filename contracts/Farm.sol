@@ -4,13 +4,23 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
-contract Farm is AccessControl {
-    bytes32 public constant FARMER_ROLE = keccak256("FARMER_ROLE");
-    bytes32 public constant FARM_CHIEF_ROLE = keccak256("FARM_CHIEF_ROLE");
-    uint32 constant minimumVotingPeriod = 20;
-    uint256 proposalCounter;
-
-    struct Proposal {
+interface IFarm {
+    function becomeFarmer() external payable;
+    function getProposals() external view returns (Proposal[] memory props);
+    function getProposal(uint256 proposalId) external view returns (Proposal memory);
+    function getFarmerVotes() external view returns (uint256[] memory);
+    function getFarmerBalance() external view returns (uint256);
+    function isFamer() external view returns (bool);
+    function createProposal(address farmChief, bool add) external;
+    function vote(uint256 proposalId, bool supportProposal) external;
+    function executeProposal(uint256 proposalId) external;
+    function transfer(uint256 amount, address payable target) external;
+    function execute(address target, bytes calldata callData) external;
+    event Response(bool success, bytes data);
+    event CornReceived(address indexed fromAddress, uint256 amount);
+    event NewProposal(address indexed farmer);
+    event AddedFarmChief(address indexed farmer, address indexed farmChief, bool indexed add);
+        struct Proposal {
         uint256 id;
         uint256 livePeriod;
         uint256 votesFor;
@@ -22,15 +32,13 @@ contract Farm is AccessControl {
         bool executed;
         address executedBy;
     }
+}
 
-    event Response (bool success, bytes data);
-    event CornReceived(address indexed fromAddress, uint256 amount);
-    event NewProposal(address indexed farmer);
-    event AddedFarmChief(
-        address indexed farmer,
-        address indexed farmChief,
-        bool indexed add
-    );
+contract Farm is AccessControl, IFarm {
+    bytes32 public constant FARMER_ROLE = keccak256("FARMER_ROLE");
+    bytes32 public constant FARM_CHIEF_ROLE = keccak256("FARM_CHIEF_ROLE");
+    uint32 constant minimumVotingPeriod = 20;
+    uint256 proposalCounter;
 
     mapping(uint256 => Proposal) private proposals;
     mapping(address => uint256[]) private farmerVotes;
