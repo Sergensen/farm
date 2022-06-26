@@ -1,0 +1,364 @@
+{
+  "manifestVersion": "3.2",
+  "admin": {
+    "address": "0x501650a1bf948921B43E7dC5A40980380750CaC2",
+    "txHash": "0x3e7ab0429ac37f71701e2986b570b89f95e351011dbea82ce59f8319c2223d32"
+  },
+  "proxies": [
+    {
+      "address": "0xC09daCc3eB1EB2F129656f747c68465a8E16062b",
+      "txHash": "0x72c16ef6af666de91572521b4e2fd087a928cf7ce0c777bf3ec926afc664538b",
+      "kind": "transparent"
+    }
+  ],
+  "impls": {
+    "d0b1b294f1f6e9fd80d10491f185c7b567fc82a5896eae0986e1abdcbc109fe0": {
+      "address": "0x36D7D99793E520fCBEe66096D1F5089F4e523c91",
+      "txHash": "0xd0001ce3fef35575db031590ec5bd594d3425011e644081fceb128fd154914e8",
+      "layout": {
+        "storage": [
+          {
+            "label": "_roles",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_mapping(t_bytes32,t_struct(RoleData)19_storage)",
+            "contract": "AccessControl",
+            "src": "@openzeppelin/contracts/access/AccessControl.sol:55"
+          },
+          {
+            "label": "proposalCounter",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_uint256",
+            "contract": "Farm",
+            "src": "contracts/Farm.sol:11"
+          },
+          {
+            "label": "proposals",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_mapping(t_uint256,t_struct(Proposal)735_storage)",
+            "contract": "Farm",
+            "src": "contracts/Farm.sol:35"
+          },
+          {
+            "label": "farmerVotes",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_mapping(t_address,t_array(t_uint256)dyn_storage)",
+            "contract": "Farm",
+            "src": "contracts/Farm.sol:36"
+          },
+          {
+            "label": "farmers",
+            "offset": 0,
+            "slot": "4",
+            "type": "t_mapping(t_address,t_uint256)",
+            "contract": "Farm",
+            "src": "contracts/Farm.sol:37"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_uint256)dyn_storage": {
+            "label": "uint256[]",
+            "numberOfBytes": "32"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_bytes32": {
+            "label": "bytes32",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_array(t_uint256)dyn_storage)": {
+            "label": "mapping(address => uint256[])",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_bytes32,t_struct(RoleData)19_storage)": {
+            "label": "mapping(bytes32 => struct AccessControl.RoleData)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_struct(Proposal)735_storage)": {
+            "label": "mapping(uint256 => struct Farm.Proposal)",
+            "numberOfBytes": "32"
+          },
+          "t_struct(Proposal)735_storage": {
+            "label": "struct Farm.Proposal",
+            "members": [
+              {
+                "label": "id",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "livePeriod",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "votesFor",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "votesAgainst",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "farmChief",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "4"
+              },
+              {
+                "label": "add",
+                "type": "t_bool",
+                "offset": 20,
+                "slot": "4"
+              },
+              {
+                "label": "votingPassed",
+                "type": "t_bool",
+                "offset": 21,
+                "slot": "4"
+              },
+              {
+                "label": "proposer",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "5"
+              },
+              {
+                "label": "executed",
+                "type": "t_bool",
+                "offset": 20,
+                "slot": "5"
+              },
+              {
+                "label": "executedBy",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "6"
+              }
+            ],
+            "numberOfBytes": "224"
+          },
+          "t_struct(RoleData)19_storage": {
+            "label": "struct AccessControl.RoleData",
+            "members": [
+              {
+                "label": "members",
+                "type": "t_mapping(t_address,t_bool)",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "adminRole",
+                "type": "t_bytes32",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          }
+        }
+      }
+    },
+    "8d4b042700539f82a7569b7b505c5aa9fab446c0d1f6bca363f9117adc5fc498": {
+      "address": "0x30aD963724C95A65f02ac773e5547Dd101C0731B",
+      "txHash": "0x4fdb81cfe335c2d0fe4ebf48fe6fcdd6f1a852c050e595faeff832935fe9e865",
+      "layout": {
+        "storage": [
+          {
+            "label": "_roles",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_mapping(t_bytes32,t_struct(RoleData)19_storage)",
+            "contract": "AccessControl",
+            "src": "@openzeppelin/contracts/access/AccessControl.sol:55"
+          },
+          {
+            "label": "proposalCounter",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_uint256",
+            "contract": "FarmV2",
+            "src": "contracts/FarmV2.sol:10"
+          },
+          {
+            "label": "proposals",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_mapping(t_uint256,t_struct(Proposal)694_storage)",
+            "contract": "FarmV2",
+            "src": "contracts/FarmV2.sol:34"
+          },
+          {
+            "label": "farmerVotes",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_mapping(t_address,t_array(t_uint256)dyn_storage)",
+            "contract": "FarmV2",
+            "src": "contracts/FarmV2.sol:35"
+          },
+          {
+            "label": "farmers",
+            "offset": 0,
+            "slot": "4",
+            "type": "t_mapping(t_address,t_uint256)",
+            "contract": "FarmV2",
+            "src": "contracts/FarmV2.sol:36"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_uint256)dyn_storage": {
+            "label": "uint256[]",
+            "numberOfBytes": "32"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_bytes32": {
+            "label": "bytes32",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_array(t_uint256)dyn_storage)": {
+            "label": "mapping(address => uint256[])",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_bytes32,t_struct(RoleData)19_storage)": {
+            "label": "mapping(bytes32 => struct AccessControl.RoleData)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_struct(Proposal)694_storage)": {
+            "label": "mapping(uint256 => struct FarmV2.Proposal)",
+            "numberOfBytes": "32"
+          },
+          "t_struct(Proposal)694_storage": {
+            "label": "struct FarmV2.Proposal",
+            "members": [
+              {
+                "label": "id",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "livePeriod",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "votesFor",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "votesAgainst",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "farmChief",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "4"
+              },
+              {
+                "label": "add",
+                "type": "t_bool",
+                "offset": 20,
+                "slot": "4"
+              },
+              {
+                "label": "votingPassed",
+                "type": "t_bool",
+                "offset": 21,
+                "slot": "4"
+              },
+              {
+                "label": "proposer",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "5"
+              },
+              {
+                "label": "executed",
+                "type": "t_bool",
+                "offset": 20,
+                "slot": "5"
+              },
+              {
+                "label": "executedBy",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "6"
+              }
+            ],
+            "numberOfBytes": "224"
+          },
+          "t_struct(RoleData)19_storage": {
+            "label": "struct AccessControl.RoleData",
+            "members": [
+              {
+                "label": "members",
+                "type": "t_mapping(t_address,t_bool)",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "adminRole",
+                "type": "t_bytes32",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          }
+        }
+      }
+    }
+  }
+}
